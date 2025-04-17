@@ -1,5 +1,8 @@
 {
     "require-dev": {
         "phpunit/phpunit": "9.5"
+    },
+    "require": {
+        "codeigniter4/framework": "^4.6"
     }
 }
