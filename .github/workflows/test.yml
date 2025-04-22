@@ -1,0 +1,33 @@
+name: PHPUnit Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout du code source
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Installer PHP
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4' # ou une autre version souhaitée
+          extensions: mbstring, intl, bcmath, pdo, mysqli
+
+      # Installer Composer
+      - name: Install Composer dependencies
+        run: composer install --no-interaction
+
+      # Exécuter PHPUnit
+      - name: Run PHPUnit tests
+        run: ./vendor/bin/phpunit --coverage-text
