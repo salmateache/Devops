@@ -2,11 +2,11 @@
 
 namespace Tests;
 
-use CodeIgniter\Test\CIUnitTestCase;
+use PHPUnit\Framework\TestCase;
 use CodeIgniter\Test\DatabaseTestTrait;
-use App\Models\UserModel;
+use App\Models\NadaModel;
 
-class UserModelTest extends CIUnitTestCase
+class NadaModelTest extends TestCase
 {
     use DatabaseTestTrait;
 
@@ -47,16 +47,16 @@ class UserModelTest extends CIUnitTestCase
         $db->table('users')->truncate();
     }
 
-    public function testFindAllUsers()
+    public function testFindAllUsers(): void
     {
-        $model = new UserModel();
+        $model = new NadaModel();
         $users = $model->findAll();
         $this->assertIsArray($users);
     }
 
-    public function testInsertUser()
+    public function testInsertUser(): void
     {
-        $model = new UserModel();
+        $model = new NadaModel();
         $data = ['name' => 'Jamila Dahi', 'email' => 'jda@g.mt'];
         $id = $model->insert($data);
         $this->assertGreaterThan(0, $id);
