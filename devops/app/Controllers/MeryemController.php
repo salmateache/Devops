@@ -2,13 +2,13 @@
 
 namespace App\Controllers;
 
-use App\Models\UserModel;
+use App\Models\MeryemModel;
 
-class UserController extends BaseController
+class MeryemController extends BaseController
 {
     public function index()
     {
-        $model = new UserModel();
+        $model = new MeryemModel();
         $data['users'] = $model->findAll();
         return view('user_list', $data);
     }
