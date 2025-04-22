@@ -4,9 +4,9 @@ namespace Tests;
 
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\DatabaseTestTrait;
-use App\Models\UserModel;
+use App\Models\SalmaModel;
 
-class UserModelTest extends CIUnitTestCase
+class SalmaModelTest extends CIUnitTestCase
 {
     use DatabaseTestTrait;
 
@@ -49,14 +49,14 @@ class UserModelTest extends CIUnitTestCase
 
     public function testFindAllUsers()
     {
-        $model = new UserModel();
+        $model = new SalmaModel();
         $users = $model->findAll();
         $this->assertIsArray($users);
     }
 
     public function testInsertUser()
     {
-        $model = new UserModel();
+        $model = new SalmaModel();
         $data = ['name' => 'Jamila Dahi', 'email' => 'jda@g.mt'];
         $id = $model->insert($data);
         $this->assertGreaterThan(0, $id);

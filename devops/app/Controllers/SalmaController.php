@@ -2,13 +2,13 @@
 
 namespace App\Controllers;
 
-use App\Models\UserModel;
+use App\Models\SalmaModel;
 
-class UserController extends BaseController
+class SalmaController extends BaseController
 {
     public function index()
     {
-        $model = new UserModel();
+        $model = new SalmaModel();
         $data['users'] = $model->findAll();
         return view('user_list', $data);
     }
