@@ -1,0 +1,29 @@
+name: PHPUnit Tests
+
+on:
+  push:
+    branches:
+      - meryem
+  pull_request:
+    branches:
+      - meryem
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+          extensions: mbstring, intl, bcmath, pdo, mysqli
+
+      - name: Install dependencies
+        run: composer install --no-interaction
+
+      - name: Run PHPUnit tests
+        run: ./vendor/bin/phpunit
