@@ -1,17 +1,57 @@
 <?php
 
-namespace App\Tests\Models;
+namespace Tests;
 
-use PHPUnit\Framework\TestCase;
+use CodeIgniter\Test\CIUnitTestCase;
+use CodeIgniter\Test\DatabaseTestTrait;
 use App\Models\UserModel;
 
-class UserModelTest extends TestCase
+class UserModelTest extends CIUnitTestCase
 {
+    use DatabaseTestTrait;
+
+    protected $seed = ''; // pas de fichier seed, on crée les données à la main
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $db = \Config\Database::connect();
+        $forge = \Config\Database::forge();
+
+        // Créer la table si elle n'existe pas
+        if (!$db->tableExists('users')) {
+            $fields = [
+                'id' => [
+                    'type' => 'INT',
+                    'constraint' => 5,
+                    'unsigned' => true,
+                    'auto_increment' => true,
+                ],
+                'name' => [
+                    'type' => 'VARCHAR',
+                    'constraint' => '100',
+                ],
+                'email' => [
+                    'type' => 'VARCHAR',
+                    'constraint' => '100',
+                ],
+            ];
+
+            $forge->addField($fields);
+            $forge->addKey('id', true);
+            $forge->createTable('users');
+        }
+
+        // Nettoyer la table pour éviter les doublons
+        $db->table('users')->truncate();
+    }
+
     public function testFindAllUsers()
     {
         $model = new UserModel();
         $users = $model->findAll();
-        $this->assertIsArray($users, "findAll doit retourner un tableau !");
+        $this->assertIsArray($users);
     }
 
     public function testInsertUser()
@@ -19,7 +59,6 @@ class UserModelTest extends TestCase
         $model = new UserModel();
         $data = ['name' => 'Jamila Dahi', 'email' => 'jda@g.mt'];
         $id = $model->insert($data);
-        $this->assertGreaterThan(0, $id, "L'ID de l'utilisateur inséré doit être > 0");
+        $this->assertGreaterThan(0, $id);
     }
 }
-?>
