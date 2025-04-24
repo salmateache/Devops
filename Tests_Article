@@ -1,0 +1,39 @@
+name: Tests Article
+
+on:
+  push:
+    branches: [ salma ]
+  pull_request:
+    branches: [ salma ]
+
+jobs:
+  run-tests:
+    name: Exécuter les tests PHPUnit pour ArticleModel
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Cloner le dépôt
+        uses: actions/checkout@v4
+
+      - name: 🐘 Configurer PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: xdebug
+
+      - name: 📦 Installer les dépendances avec Composer
+        run: composer install --no-progress --prefer-dist
+
+      - name: ✅ Lancer les tests PHPUnit
+        run: |
+          vendor/bin/phpunit --testdox
+
+      - name: 📊 Générer le rapport de couverture
+        run: |
+          vendor/bin/phpunit --coverage-clover=coverage.xml
+
+      - name: ☁️ Télécharger le rapport de couverture comme artefact
+        uses: actions/upload-artifact@v3
+        with:
+          name: couverture-code
+          path: coverage.xml
